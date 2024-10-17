@@ -1,25 +1,12 @@
-﻿using System.ComponentModel.Design;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 using System.Reflection.Metadata.Ecma335;
 
 namespace dblw9
 {
     internal class Program
     {
-        const char SELECT_CHAR = '>';
-        public static string[] categoriesActions = {
-            "Товары",
-            "Склады",
-        };
-        public static string[] itemsActions = { 
-            "Найти товар по имени",
-            "Найти товар по ID",
-            "Переместить товар на другой склад",
-            "Удалить данные о товаре"
-        };
-        public static string[] storageActions =
-        {
-
-        };
+        
         public static void Main(string[] args)
         {
             while (true)
@@ -28,7 +15,7 @@ namespace dblw9
                 {
                     Console.WriteLine("Ошибка: Подключение к базе данных отсутствует");
                 }
-                ShowMenu(categoriesActions);
+                ShowMenu(Actions.categoriesActions);
                 var key = Console.ReadKey(true).Key;
 
                 switch(key)
@@ -38,7 +25,7 @@ namespace dblw9
                         string? itemRawString = Console.ReadLine();
                         if (itemRawString != null)
                         {
-                            Console.WriteLine(GetItem(itemRawString));
+                            Console.WriteLine(GetItem<Item>(itemRawString));
                         } 
                         break;
                 }
@@ -63,19 +50,47 @@ namespace dblw9
             Console.WriteLine("Нажмите Esc для выхода");
         }
 
-        public static string GetItem(string itemRawString)
+        public static List<T> GetItem<T>(string rawString)
         {
             int itemId;
-            if (int.TryParse(itemRawString, out itemId))
+            if (int.TryParse(rawString, out itemId))
             {
-                return GetItemById(id);
+                return GetById<T>(itemId);
             }
             else
             {
-                return GetItemByName(itemRawString);
+                return GetByName(rawString);
             }
         }
 
-        
+        public static List<T> GetById<T>(int id)
+        {
+            List<T> result = new();
+            using (MyDbContext db = new())
+            { 
+                if (typeof(T) == typeof(Item))
+                { 
+                    var items = (from item in db.Items where item.Id == id select item).ToList();
+                    foreach(Item item in items)
+                    {
+                        result.Add((T)(object)item);
+                    } 
+                }
+                else if (typeof(T) == typeof(Storage))
+                {
+                    var storages = (from storage in db.Storages where storage.Id == id select storage).ToList();
+                    foreach(Storage storage in storages)
+                    {
+                        result.Add((T)(object)storage);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static List<T> GetByName<T>(string name)
+        {
+            
+        }
     }
 }
