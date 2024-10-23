@@ -22,7 +22,7 @@ namespace dblw9.Models.Configurations
 
             builder.Property(i => i.Cost)
                 .HasColumnName("cost")
-                .IsRequired();
+                .IsRequired().HasColumnType("float");
 
             builder.Property(i=>i.Description)
                 .HasColumnName("description")
@@ -32,6 +32,7 @@ namespace dblw9.Models.Configurations
             builder.Property(i => i.SupplierId)
                 .HasColumnName("id_supplier")
                 .IsRequired();
+
         }
     }
 }

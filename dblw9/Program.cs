@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.Design;
+using System.Net;
 using System.Reflection.Metadata.Ecma335;
 
 namespace dblw9
@@ -15,18 +17,31 @@ namespace dblw9
                 {
                     Console.WriteLine("Ошибка: Подключение к базе данных отсутствует");
                 }
-                ShowMenu(Actions.categoriesActions);
+                ShowMenu(Menu.categoriesActions);
                 var key = Console.ReadKey(true).Key;
+                string? itemRawString = null;
 
-                switch(key)
+                switch (key)
                 {
                     case ConsoleKey.D1:
-                        Console.WriteLine("Введите название или ID товара: ");
-                        string? itemRawString = Console.ReadLine();
-                        if (itemRawString != null)
+                        Console.Clear();
+                        ShowMenu(Menu.itemStage1);
+
+                        var key1 = Console.ReadKey(true).Key;
+
+                        switch (key1)
                         {
-                            Console.WriteLine(GetItem<Item>(itemRawString));
-                        } 
+                            case ConsoleKey.D1:
+                                Console.Clear();
+                                Console.Write("Введите название или ID товара: ");
+                                itemRawString = Console.ReadLine();
+                                if (!itemRawString.IsNullOrEmpty()) {
+                                    List<Item>? items = GetItem<Item>(itemRawString!);
+                                };
+                                Console.WriteLine("Error!");
+                                break;
+                        }
+                        //Console.WriteLine(GetItem<Item>(itemRawString)); 
                         break;
                 }
             }
@@ -45,7 +60,7 @@ namespace dblw9
             Console.WriteLine("Выберите действие: ");
             for (int i = 0; i < actions.Length; i++)
             {
-                Console.WriteLine($"{i}. {actions[i]}");
+                Console.WriteLine($"{i+1}. {actions[i]}");
             }
             Console.WriteLine("Нажмите Esc для выхода");
         }
@@ -59,7 +74,7 @@ namespace dblw9
             }
             else
             {
-                return GetByName(rawString);
+                return GetByName<T>(rawString);
             }
         }
 
@@ -90,7 +105,8 @@ namespace dblw9
 
         public static List<T> GetByName<T>(string name)
         {
-            
+            List<T> list = new();
+            return list;
         }
     }
 }
