@@ -78,6 +78,18 @@ namespace dblw9
             }
         }
 
+        public static List<T> GetAllItems<T>()
+        {
+            List<T> result = new();
+            using (MyDbContext db = new())
+            {
+                if (typeof(T) == typeof(Item))
+                {
+                    var items = db.Items.Select();
+                }
+            }
+        }
+
         public static List<T> GetById<T>(int id)
         {
             List<T> result = new();
