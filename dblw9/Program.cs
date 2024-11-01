@@ -1,14 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using dblw9.Services;
 using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.Design;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
 
 namespace dblw9
 {
     internal class Program
     {
-        
+
         public static void Main(string[] args)
         {
             while (true)
@@ -16,7 +13,14 @@ namespace dblw9
                 if (!TestConnectDB())
                 {
                     Console.WriteLine("Ошибка: Подключение к базе данных отсутствует");
+                    break;
                 }
+
+                var itemService = new ItemService(new MyDbContext());
+                var storageService = new StorageService(new MyDbContext());
+                var supplierService = new SupplierService(new MyDbContext());
+                var iisSerice = new ItemInStorageService(new MyDbContext());
+
                 ShowMenu(Menu.categoriesActions);
                 var key = Console.ReadKey(true).Key;
                 string? itemRawString = null;
@@ -33,10 +37,27 @@ namespace dblw9
                         {
                             case ConsoleKey.D1:
                                 Console.Clear();
+                                var items = itemService.GetAllItems();
+                                if (!items.IsNullOrEmpty())
+                                {
+                                    System.Console.WriteLine("Товары: ");
+                                    foreach(var item in items)
+                                    {
+                                        Console.WriteLine($"{item.Id}. {item.Name}\n\tЦена: {item.Cost}\n\tОписание: {item.Description}\n");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Товары не найдены");
+                                }
+                                break;
+                            case ConsoleKey.D2:
+                                Console.Clear();
                                 Console.Write("Введите название или ID товара: ");
                                 itemRawString = Console.ReadLine();
-                                if (!itemRawString.IsNullOrEmpty()) {
-                                    List<Item>? items = GetItem<Item>(itemRawString!);
+                                if (!itemRawString.IsNullOrEmpty())
+                                {
+                                    //List<Item>? items = GetItem<Item>(itemRawString!);
                                 };
                                 Console.WriteLine("Error!");
                                 break;
@@ -52,7 +73,7 @@ namespace dblw9
             using (MyDbContext db = new())
             {
                 return db.Database.CanConnect();
-            }  
+            }
         }
 
         public static void ShowMenu(string[] actions)
@@ -60,65 +81,9 @@ namespace dblw9
             Console.WriteLine("Выберите действие: ");
             for (int i = 0; i < actions.Length; i++)
             {
-                Console.WriteLine($"{i+1}. {actions[i]}");
+                Console.WriteLine($"{i + 1}. {actions[i]}");
             }
             Console.WriteLine("Нажмите Esc для выхода");
-        }
-
-        public static List<T> GetItem<T>(string rawString)
-        {
-            int itemId;
-            if (int.TryParse(rawString, out itemId))
-            {
-                return GetById<T>(itemId);
-            }
-            else
-            {
-                return GetByName<T>(rawString);
-            }
-        }
-
-        public static List<T> GetAllItems<T>()
-        {
-            List<T> result = new();
-            using (MyDbContext db = new())
-            {
-                if (typeof(T) == typeof(Item))
-                {
-                    var items = db.Items.Select();
-                }
-            }
-        }
-
-        public static List<T> GetById<T>(int id)
-        {
-            List<T> result = new();
-            using (MyDbContext db = new())
-            { 
-                if (typeof(T) == typeof(Item))
-                { 
-                    var items = (from item in db.Items where item.Id == id select item).ToList();
-                    foreach(Item item in items)
-                    {
-                        result.Add((T)(object)item);
-                    } 
-                }
-                else if (typeof(T) == typeof(Storage))
-                {
-                    var storages = (from storage in db.Storages where storage.Id == id select storage).ToList();
-                    foreach(Storage storage in storages)
-                    {
-                        result.Add((T)(object)storage);
-                    }
-                }
-            }
-            return result;
-        }
-
-        public static List<T> GetByName<T>(string name)
-        {
-            List<T> list = new();
-            return list;
         }
     }
 }
