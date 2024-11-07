@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
 namespace dblw9.Services
 {
     public class StorageService
@@ -16,8 +19,24 @@ namespace dblw9.Services
 
         public void AddStorage(Storage storage)
         {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(storage);
+
+            if (!Validator.TryValidateObject(storage, validationContext, validationResults, true))
+            {
+                throw new ValidationException($"Storage is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
+            }
+
             _context.Storages.Add(storage);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while saving the storage.", ex);
+            }
         }
 
         public void UpdateStorage(Storage storage)

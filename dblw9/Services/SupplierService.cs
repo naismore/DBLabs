@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
 namespace dblw9.Services
 {
     public class SupplierService
@@ -16,8 +19,24 @@ namespace dblw9.Services
 
         public void AddSupplier(Supplier supplier)
         {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(supplier);
+
+            if (!Validator.TryValidateObject(supplier, validationContext, validationResults, true))
+            {
+                throw new ValidationException($"Supplier is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
+            }
+
             _context.Suppliers.Add(supplier);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while saving the supplier.", ex);
+            }
         }
 
         public void UpdateSupplier(Supplier supplier)

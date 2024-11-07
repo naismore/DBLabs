@@ -5,6 +5,17 @@
         public static string[] categoriesActions = {
             "Товары",
             "Склады",
+            "Поставщики",
+        };
+        public static string[] supplierStage1 =
+        {
+            "Поиск",
+            "Добавление",
+            "Все поставщики",
+        };
+        public static string[] supplierStage2 =
+        {
+
         };
         public static string[] itemStage1 =
         {

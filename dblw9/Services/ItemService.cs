@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace dblw9.Services
 {
@@ -13,13 +14,30 @@ namespace dblw9.Services
 
         public List<Item> GetAllItems()
         {
-            return _context.Items.AsNoTracking().ToList();
+            return _context.Items.ToList();
         }
+
 
         public void AddItem(Item item)
         {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(item);
+
+            if (!Validator.TryValidateObject(item, validationContext, validationResults, true))
+            {
+                throw new ValidationException($"Item is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
+            }
+
             _context.Items.Add(item);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while saving the item.", ex);
+            }
         }
 
         public void UpdateItem(Item item)
