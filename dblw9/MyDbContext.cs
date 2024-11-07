@@ -12,10 +12,8 @@ namespace dblw9
 
         public MyDbContext()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=localhost;Database=dblw9;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -37,7 +35,7 @@ namespace dblw9
             // Начальные данные
 
             // Поставщики
-            Supplier apple = new Supplier {Id = -1, Name = "Apple", ContactPersonFirstName = "Name1", ContactPersonLastName = "Lastname1", PhoneNumber = "123123123", Adress = "New York City" };
+            Supplier apple = new Supplier {Id = 1, Name = "Apple", ContactPersonFirstName = "Name1", ContactPersonLastName = "Lastname1", PhoneNumber = "123123123", Adress = "New York City" };
             Supplier samsung = new Supplier { Id = -2, Name = "Samsung", ContactPersonFirstName = "Ryo", ContactPersonLastName = "Kudo", PhoneNumber = "3213321321", Adress = "Tokyo" };
             Supplier huawei = new Supplier { Id = -3, Name = "Huawei", ContactPersonFirstName = "Ching", ContactPersonLastName = "Chong", PhoneNumber = "31312312", Adress = "Huyung" };
             Supplier xiaomi = new Supplier { Id = -4, Name = "Xiaomi", ContactPersonFirstName = "Chong", ContactPersonLastName = "Chang", PhoneNumber = "12341512", Adress = "GungHuyung" };

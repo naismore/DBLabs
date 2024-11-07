@@ -40,16 +40,58 @@ namespace dblw9.Services
             }
         }
 
-        public void UpdateItem(Item item)
+        public void UpdateItem(Item updatedItem)
         {
-            _context.Items.Update(item);
-            _context.SaveChanges();
+            // ѕроверка на существование товара
+            var existingItem = _context.Items.Find(updatedItem.Id);
+            if (existingItem == null)
+            {
+                throw new KeyNotFoundException("Item not found.");
+            }
+
+            // ¬алидаци€ обновленного товара
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(updatedItem);
+
+            if (!Validator.TryValidateObject(updatedItem, validationContext, validationResults, true))
+            {
+                throw new ValidationException($"Item is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
+            }
+
+            // ќбновление свойств существующего товара
+            existingItem.Name = updatedItem.Name;
+            existingItem.Description = updatedItem.Description;
+            existingItem.Cost = updatedItem.Cost;
+            existingItem.Unit = updatedItem.Unit;
+            existingItem.SupplierId = updatedItem.SupplierId;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while updating the item.", ex);
+            }
         }
 
         public void RemoveItem(Item item)
         {
+            var existingItem = _context.Items.Find(item.Id);
+            if (existingItem == null)
+            {
+                throw new KeyNotFoundException("Item not found.");
+            }
             _context.Items.Remove(item);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while saving the item.", ex);
+            }
         }
 
         public List<Item> GetItemByID(int id)

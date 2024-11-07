@@ -39,16 +39,55 @@ namespace dblw9.Services
             }
         }
 
-        public void UpdateStorage(Storage storage)
+        public void UpdateStorage(Storage updatedStorage)
         {
-            _context.Storages.Update(storage);
-            _context.SaveChanges();
+            var existingStorage = _context.Storages.Find(updatedStorage.Id);
+            if (existingStorage == null)
+            {
+                throw new KeyNotFoundException("Storage not found.");
+            }
+
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(updatedStorage);
+
+            if (!Validator.TryValidateObject(updatedStorage, validationContext, validationResults, true))
+            {
+                throw new ValidationException($"Storage is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
+            }
+
+            existingStorage.Name = updatedStorage.Name;
+            existingStorage.Adress = updatedStorage.Adress;
+            existingStorage.PhoneNumber = updatedStorage.PhoneNumber;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while updating the storage.", ex);
+            }
         }
 
         public void RemoveStorage(Storage storage)
         {
+            var existingstorage = _context.Storages.Find(storage.Id);
+
+            if (existingstorage == null)
+            {
+                throw new KeyNotFoundException("Storage not found.");
+            }
+
             _context.Storages.Remove(storage);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while deleting the storage.", ex);
+            }
         }
 
         public List<Storage> GetStorageByID(int id)
@@ -57,7 +96,7 @@ namespace dblw9.Services
             return storages;
         }
 
-        public List<Storage> GetItemByName(string name)
+        public List<Storage> GetStorageByName(string name)
         {
             var storages = _context.Storages.Where(s => s.Name!.Contains(name)).ToList();
             return storages;

@@ -41,14 +41,51 @@ namespace dblw9.Services
 
         public void UpdateSupplier(Supplier supplier)
         {
-            _context.Suppliers.Update(supplier);
-            _context.SaveChanges();
+            var existingSupplier = _context.Suppliers.Find(supplier.Id);
+            if (existingSupplier == null)
+            {
+                throw new KeyNotFoundException("Item not found.");
+            }
+
+
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(supplier);
+
+            if (!Validator.TryValidateObject(supplier, validationContext, validationResults, true))
+            {
+                throw new ValidationException($"Item is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
+            }
+
+            existingSupplier.Name = supplier.Name;
+            
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while updating the item.", ex);
+            }
         }
 
         public void RemoveSupplier(Supplier supplier)
         {
+            var existingSupplier = _context.Suppliers.Find(supplier.Id);
+            if (existingSupplier == null)
+            {
+                throw new KeyNotFoundException("Supplier not found.");
+            }
             _context.Suppliers.Remove(supplier);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("An error occurred while saving the item.", ex);
+            }
         }
 
         public List<Supplier> GetSupplierByID(int id)
