@@ -16,23 +16,30 @@ namespace dblw9.Models.Configurations
                 .HasMaxLength(50);
 
             builder.Property(s => s.ContactPersonFirstName)
+                .HasColumnName("contact_person_first_name")
                 .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(s => s.ContactPersonLastName)
+                .HasColumnName("contact_person_last_name")
                 .IsRequired()
                 .HasMaxLength(50);
 
 
             builder.Property(s => s.ContactPerson)
+                .HasColumnName("contact_person")
                 .HasComputedColumnSql("[ContactPersonFirstName] + ' ' + [ContactPersonLastName]");
             
             builder.Property(s => s.PhoneNumber)
+                .HasColumnName("phone_number")
                 .IsRequired()
                 .HasMaxLength(13);
 
-            builder.Property(s => s.EmailAddress).HasMaxLength(30);
+            builder.Property(s => s.EmailAddress)
+                .HasColumnName("email")
+                .HasMaxLength(30);
             builder.Property(s => s.Adress)
+                .HasColumnName("adress")
                 .IsRequired()
                 .HasMaxLength(50);
 

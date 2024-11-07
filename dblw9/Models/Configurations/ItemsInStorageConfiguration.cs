@@ -11,7 +11,8 @@ namespace dblw9.Models.Configurations
             builder.HasKey(iis => iis.Id);
             builder.Property(iis => iis.StorageId).HasColumnName("id_storage");
             builder.Property(iis => iis.ItemId).HasColumnName("id_item");
-            builder.Property(iis => iis.ArrialDate).HasColumnType("datetime").IsRequired();
+            builder.Property(iis => iis.ArrialDate).HasColumnName("arrial_date").HasColumnType("datetime").IsRequired();
+            
         }    
     }
 }

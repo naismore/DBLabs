@@ -15,10 +15,12 @@ namespace dblw9.Models.Configurations
                 .IsRequired();
 
             builder.Property(s => s.Adress)
+                .HasColumnName("adress")
                 .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(s => s.PhoneNumber)
+                .HasColumnName("phone_number")
                 .IsRequired()
                 .HasMaxLength(13);
             
