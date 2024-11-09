@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace dblw9.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeNamesOfColumns : Migration
+    public partial class ChangeNames : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,7 @@ namespace dblw9.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     contact_person_first_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    contact_person = table.Column<string>(type: "nvarchar(max)", nullable: true, computedColumnSql: "[ContactPersonFirstName] + ' ' + [ContactPersonLastName]"),
+                    contact_person = table.Column<string>(type: "nvarchar(max)", nullable: true, computedColumnSql: "[contact_person_first_name] + ' ' + [contact_person_last_name]"),
                     contact_person_last_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     phone_number = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
@@ -136,12 +136,12 @@ namespace dblw9.Migrations
                 columns: new[] { "id", "arrial_date", "id_item", "id_storage" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9365), 2, 1 },
-                    { 2, new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9367), 3, 2 },
-                    { 3, new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9368), 4, 2 },
-                    { 4, new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9369), 5, 3 },
-                    { 5, new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9370), 6, 3 },
-                    { 6, new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9349), 1, 1 }
+                    { 1, new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7526), 2, 1 },
+                    { 2, new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7528), 3, 2 },
+                    { 3, new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7529), 4, 2 },
+                    { 4, new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7530), 5, 3 },
+                    { 5, new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7532), 6, 3 },
+                    { 6, new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7514), 1, 1 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,8 +12,8 @@ using dblw9;
 namespace dblw9.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241107194255_ChangeNamesOfColumns")]
-    partial class ChangeNamesOfColumns
+    [Migration("20241109121458_ChangeNames")]
+    partial class ChangeNames
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,42 +150,42 @@ namespace dblw9.Migrations
                         new
                         {
                             Id = 6,
-                            ArrialDate = new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9349),
+                            ArrialDate = new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7514),
                             ItemId = 1,
                             StorageId = 1
                         },
                         new
                         {
                             Id = 1,
-                            ArrialDate = new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9365),
+                            ArrialDate = new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7526),
                             ItemId = 2,
                             StorageId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ArrialDate = new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9367),
+                            ArrialDate = new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7528),
                             ItemId = 3,
                             StorageId = 2
                         },
                         new
                         {
                             Id = 3,
-                            ArrialDate = new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9368),
+                            ArrialDate = new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7529),
                             ItemId = 4,
                             StorageId = 2
                         },
                         new
                         {
                             Id = 4,
-                            ArrialDate = new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9369),
+                            ArrialDate = new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7530),
                             ItemId = 5,
                             StorageId = 3
                         },
                         new
                         {
                             Id = 5,
-                            ArrialDate = new DateTime(2024, 11, 7, 22, 42, 55, 18, DateTimeKind.Local).AddTicks(9370),
+                            ArrialDate = new DateTime(2024, 11, 9, 15, 14, 57, 416, DateTimeKind.Local).AddTicks(7532),
                             ItemId = 6,
                             StorageId = 3
                         });
@@ -264,7 +264,7 @@ namespace dblw9.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("contact_person")
-                        .HasComputedColumnSql("[ContactPersonFirstName] + ' ' + [ContactPersonLastName]");
+                        .HasComputedColumnSql("[contact_person_first_name] + ' ' + [contact_person_last_name]");
 
                     b.Property<string>("ContactPersonFirstName")
                         .IsRequired()

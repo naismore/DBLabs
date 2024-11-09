@@ -28,7 +28,7 @@ namespace dblw9.Models.Configurations
 
             builder.Property(s => s.ContactPerson)
                 .HasColumnName("contact_person")
-                .HasComputedColumnSql("[ContactPersonFirstName] + ' ' + [ContactPersonLastName]");
+                .HasComputedColumnSql("[contact_person_first_name] + ' ' + [contact_person_last_name]");
             
             builder.Property(s => s.PhoneNumber)
                 .HasColumnName("phone_number")
