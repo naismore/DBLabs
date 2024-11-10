@@ -147,7 +147,71 @@ Suppliers = (
 ])
 
 // Orders
-
+Orders = (
+    [
+        {
+            "_id": 1,
+            id_customer: 1,
+        },
+        {
+            "_id": 2,
+            id_customer: 2,
+        },
+        {
+            "_id": 3,
+            id_customer: 3,
+        },
+    ]
+)
 
 // ItemsInOrders
+ItemsInOrder = (
+    [
+        {
+            "_id": 1,
+            id_item: 1,
+            id_order: 1,
+        },
+        {
+            "_id": 2,
+            id_item: 4,
+            id_order: 2,
+        },
+    
+        {
+            "_id": 3,
+            id_item: 4,
+            id_order: 3,
+        },
+    
+    
+    ]
+)
 
+// Customers
+
+Customers = (
+    [
+        {
+            "_id": 1,
+            first_name: "Alan",
+            last_name: "Walker",
+            birth_date: "1972.06.28",
+            email: "example1@gmail.com",
+        },
+        {
+            "_id": 2,
+            first_name: "Sam",
+            last_name: "Mason",
+            birth_date: "1985.06.28",
+            email: "example2@gmail.com",
+        },
+        {
+            "_id": 3,
+            first_name: "Joe",
+            last_name: "Biden",
+            birth_date: "1979.06.28",
+            email: "example3@gmail.com",
+        },
+    ]
+)

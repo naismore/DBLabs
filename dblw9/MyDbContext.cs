@@ -1,4 +1,5 @@
-﻿using dblw9.Models.Configurations;
+﻿using dblw9.Models;
+using dblw9.Models.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace dblw9
@@ -9,6 +10,10 @@ namespace dblw9
         public DbSet<Storage> Storages { get; set; } = null!;
         public DbSet<ItemsInStorage> ItemsInStorages { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
+        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<ItemsInOrder> ItemsInOrders { get; set; } = null!;
+        
 
         public MyDbContext()
         {
@@ -26,6 +31,8 @@ namespace dblw9
             modelBuilder.ApplyConfiguration(new StorageConfiguration());
             modelBuilder.ApplyConfiguration(new ItemsInStorageConfiguration());
             modelBuilder.ApplyConfiguration(new SupplierConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
 
 
             // Связи

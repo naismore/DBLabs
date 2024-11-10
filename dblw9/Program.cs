@@ -1,4 +1,5 @@
-﻿using dblw9.Services;
+﻿using dblw9.Models;
+using dblw9.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
@@ -23,6 +24,9 @@ namespace dblw9
                 var supplierService = new SupplierService(new MyDbContext());
                 var itemsInStorageService = new ItemInStorageService(new MyDbContext());
                 var storageAnalyticsService = new StorageAnalyticsService(new MyDbContext());
+                var customerService = new CustomerService(new MyDbContext());
+                var orderService = new OrderService(new MyDbContext());
+                var itemsInOrderService = new ItemsInOrderService(new MyDbContext());
 
                 ShowMenu(Menu.categoriesActions);
                 var key = Console.ReadKey(true).Key;
@@ -91,9 +95,9 @@ namespace dblw9
                                             var storage = storageList.First();
                                             Console.WriteLine($"{storage.Id}. {storage.Name}\n\tАдрес: {storage.Adress}\n\tТелефон: {storage.PhoneNumber}");
                                             ShowMenu(Menu.storageStage2);
-                                            var key6 = Console.ReadKey(true).Key;
+                                            var key5 = Console.ReadKey(true).Key;
 
-                                            switch (key6)
+                                            switch (key5)
                                             {
                                                 case ConsoleKey.D1: // Удалить склад
                                                     storageService.RemoveStorage(storage);
@@ -200,9 +204,9 @@ namespace dblw9
                                             Console.WriteLine($"{supplier.Id}. {supplier.Name}\n\tОтветственное лицо: {supplier.ContactPersonFirstName} {supplier.ContactPersonLastName}\n\t Номер телефона: {supplier.PhoneNumber}");
                                             ShowMenu(Menu.supplierStage2);
 
-                                            var key6 = Console.ReadKey(true).Key;
+                                            var key5 = Console.ReadKey(true).Key;
 
-                                            switch (key6)
+                                            switch (key5)
                                             {
                                                 case ConsoleKey.D1:
                                                     supplierService.RemoveSupplier(supplier);
@@ -403,6 +407,113 @@ namespace dblw9
                         foreach (var data in analyticsData)
                         {
                             Console.WriteLine($"Склад ID: {data.StorageId}, Средняя цена: {data.AveragePrice}, Последняя дата поступления: {data.LatestArrival}, Первая дата поступления: {data.EarliestArrival}, Количество товаров: {data.TotalItems}");
+                        }
+                        break;
+                    case ConsoleKey.D6: // Клиенты
+                        Console.Clear();
+                        ShowMenu(Menu.customerStage1);
+                        var key6 = Console.ReadKey(true).Key;
+
+                        switch (key6)
+                        {
+                            case ConsoleKey.D1: // Вывести всех клиентов
+                                var customers = customerService.GetAllCustomers();
+                                if (customers != null && customers.Any())
+                                {
+                                    Console.WriteLine("Клиенты:");
+                                    foreach (var customer in customers)
+                                    {
+                                        Console.WriteLine($"{customer.Id}. {customer.FirstName} {customer.LastName}, Email: {customer.Email}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Клиенты не найдены.");
+                                }
+                                break;
+
+                            case ConsoleKey.D2: // Добавить клиента
+                                AddCustomer(customerService);
+                                break;
+
+                            case ConsoleKey.D3: // Найти клиента
+                                Console.Clear();
+                                Console.Write("Введите ID или имя клиента: ");
+                                string? customerSearch = Console.ReadLine();
+                                // Логика поиска клиента по ID или имени
+                                break;
+                        }
+                        break;
+
+                    case ConsoleKey.D7: // Заказы
+                        Console.Clear();
+                        ShowMenu(Menu.orderStage1);
+                        var key7 = Console.ReadKey(true).Key;
+
+                        switch (key7)
+                        {
+                            case ConsoleKey.D1: // Вывести все заказы
+                                var orders = orderService.GetAllOrders();
+                                if (orders != null && orders.Any())
+                                {
+                                    Console.WriteLine("Заказы:");
+                                    foreach (var order in orders)
+                                    {
+                                        Console.WriteLine($"{order.Id}. Адрес: {order.Adress}, Дата: {order.OrderDate}, ID клиента: {order.CustomerId}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Заказы не найдены.");
+                                }
+                                break;
+
+                            case ConsoleKey.D2: // Добавить заказ
+                                AddOrder(orderService);
+                                break;
+
+                            case ConsoleKey.D3: // Найти заказ
+                                Console.Clear();
+                                Console.Write("Введите ID заказа: ");
+                                int orderId = int.Parse(Console.ReadLine());
+                                // Логика поиска заказа по ID
+                                break;
+                        }
+                        break;
+
+                    case ConsoleKey.D8: // Элементы в заказе
+                        Console.Clear();
+                        ShowMenu(Menu.itemInOrderStage1);
+                        var key8 = Console.ReadKey(true).Key;
+
+                        switch (key8)
+                        {
+                            case ConsoleKey.D1: // Вывести все элементы в заказе
+                                var itemsInOrder = itemsInOrderService.GetAllItemsInOrder();
+                                if (itemsInOrder != null && itemsInOrder.Any())
+                                {
+                                    Console.WriteLine("Элементы в заказах:");
+                                    foreach (var itemInOrder in itemsInOrder)
+                                    {
+                                        Console.WriteLine($"ID: {itemInOrder.Id}, ID товара: {itemInOrder.ItemId}, ID заказа: {itemInOrder.OrderId}, Количество: {itemInOrder.Quantity}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Элементы в заказах не найдены.");
+                                }
+                                break;
+
+                            case ConsoleKey.D2: // Добавить элемент в заказ
+                                AddItemInOrder(itemsInOrderService);
+                                break;
+
+                            case ConsoleKey.D3: // Найти элемент в заказе
+                                Console.Clear();
+                                Console.Write("Введите ID элемента в заказе: ");
+                                int itemInOrderId = int.Parse(Console.ReadLine());
+                                // Логика поиска элемента в заказе по ID
+                                break;
                         }
                         break;
                 }
@@ -729,6 +840,224 @@ namespace dblw9
                 Console.WriteLine($"{i + 1}. {actions[i]}");
             }
             Console.WriteLine("Нажмите Esc для выхода");
+        }
+
+        private static void AddCustomer(CustomerService customerService)
+        {
+            var newCustomer = new Customer();
+
+            Console.WriteLine("Введите данные для нового клиента:");
+
+            Console.Write("Имя: ");
+            newCustomer.FirstName = Console.ReadLine();
+
+            Console.Write("Фамилия: ");
+            newCustomer.LastName = Console.ReadLine();
+
+            Console.Write("Дата рождения (формат: ГГГГ-ММ-ДД): ");
+            newCustomer.BirthDate = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("Email: ");
+            newCustomer.Email = Console.ReadLine();
+
+            try
+            {
+                customerService.AddCustomer(newCustomer);
+                Console.WriteLine("Клиент успешно добавлен.");
+            }
+            catch (ValidationException vex)
+            {
+                Console.WriteLine($"Ошибка валидации: {vex.Message}");
+            }
+        }
+        private static void UpdateCustomer(CustomerService customerService, Customer customer)
+        {
+            Console.WriteLine($"Текущие данные о клиенте: Имя - {customer.FirstName}, Фамилия - {customer.LastName}, Дата рождения - {customer.BirthDate}, Email - {customer.Email}");
+
+            var updatedCustomer = new Customer { Id = customer.Id };
+
+            Console.Write("Новое имя (оставьте пустым для сохранения текущего): ");
+            var firstNameInput = Console.ReadLine();
+            updatedCustomer.FirstName = string.IsNullOrWhiteSpace(firstNameInput) ? customer.FirstName : firstNameInput;
+
+            Console.Write("Новая фамилия (оставьте пустым для сохранения текущего): ");
+            var lastNameInput = Console.ReadLine();
+            updatedCustomer.LastName = string.IsNullOrWhiteSpace(lastNameInput) ? customer.LastName : lastNameInput;
+
+            Console.Write("Новая дата рождения (оставьте пустым для сохранения текущей): ");
+            var birthDateInput = Console.ReadLine();
+            updatedCustomer.BirthDate = string.IsNullOrWhiteSpace(birthDateInput) ? customer.BirthDate : DateTime.Parse(birthDateInput);
+
+            Console.Write("Новый Email (оставьте пустым для сохранения текущего): ");
+            var emailInput = Console.ReadLine();
+            updatedCustomer.Email = string.IsNullOrWhiteSpace(emailInput) ? customer.Email : emailInput;
+
+            try
+            {
+                customerService.UpdateCustomer(updatedCustomer);
+                Console.WriteLine("Клиент успешно обновлен.");
+            }
+            catch (ValidationException vex)
+            {
+                Console.WriteLine($"Ошибка валидации: {vex.Message}");
+            }
+        }
+
+        private static void RemoveCustomer(CustomerService customerService, Customer customer)
+        {
+            try
+            {
+                customerService.RemoveCustomer(customer);
+                Console.WriteLine("Клиент успешно удален.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private static void AddOrder(OrderService orderService)
+        {
+            var newOrder = new Order();
+
+            Console.WriteLine("Введите данные для нового заказа:");
+
+            Console.Write("Адрес: ");
+            newOrder.Adress = Console.ReadLine();
+
+            Console.Write("Дата заказа (формат: ГГГГ-ММ-ДД): ");
+            newOrder.OrderDate = DateTime.Parse(Console.ReadLine());
+
+            Console.Write("ID клиента: ");
+            newOrder.CustomerId = int.Parse(Console.ReadLine());
+
+            try
+            {
+                orderService.AddOrder(newOrder);
+                Console.WriteLine("Заказ успешно добавлен.");
+            }
+            catch (ValidationException vex)
+            {
+                Console.WriteLine($"Ошибка валидации: {vex.Message}");
+            }
+        }
+
+        private static void UpdateOrder(OrderService orderService, Order order)
+        {
+            Console.WriteLine($"Текущие данные о заказе: Адрес - {order.Adress}, Дата заказа - {order.OrderDate}, ID клиента - {order.CustomerId}");
+
+            var updatedOrder = new Order { Id = order.Id };
+
+            Console.Write("Новый адрес (оставьте пустым для сохранения текущего): ");
+            var addressInput = Console.ReadLine();
+            updatedOrder.Adress = string.IsNullOrWhiteSpace(addressInput) ? order.Adress : addressInput;
+
+            Console.Write("Новая дата заказа (оставьте пустым для сохранения текущей): ");
+            var orderDateInput = Console.ReadLine();
+            updatedOrder.OrderDate = string.IsNullOrWhiteSpace(orderDateInput) ? order.OrderDate : DateTime.Parse(orderDateInput);
+
+            Console.Write("Новый ID клиента (оставьте пустым для сохранения текущего): ");
+            var customerIdInput = Console.ReadLine();
+            updatedOrder.CustomerId = string.IsNullOrWhiteSpace(customerIdInput) ? order.CustomerId : int.Parse(customerIdInput);
+
+            try
+            {
+                orderService.UpdateOrder(updatedOrder);
+                Console.WriteLine("Заказ успешно обновлен.");
+            }
+            catch (ValidationException vex)
+            {
+                Console.WriteLine($"Ошибка валидации: {vex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private static void RemoveOrder(OrderService orderService, Order order)
+        {
+            try
+            {
+                orderService.RemoveOrder(order);
+                Console.WriteLine("Заказ успешно удален.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private static void AddItemInOrder(ItemsInOrderService itemInOrderService)
+        {
+            var newItemInOrder = new ItemsInOrder();
+
+            Console.WriteLine("Введите данные для нового элемента в заказе:");
+
+            Console.Write("ID товара: ");
+            newItemInOrder.ItemId = int.Parse(Console.ReadLine());
+
+            Console.Write("ID заказа: ");
+            newItemInOrder.OrderId = int.Parse(Console.ReadLine());
+
+            Console.Write("Количество: ");
+            newItemInOrder.Quantity = int.Parse(Console.ReadLine());
+
+            try
+            {
+                itemInOrderService.AddItemInOrder(newItemInOrder);
+                Console.WriteLine("Элемент успешно добавлен в заказ.");
+            }
+            catch (ValidationException vex)
+            {
+                Console.WriteLine($"Ошибка валидации: {vex.Message}");
+            }
+        }
+
+        private static void UpdateItemInOrder(ItemsInOrderService itemInOrderService, ItemsInOrder itemInOrder)
+        {
+            Console.WriteLine($"Текущие данные о элементе в заказе: ID товара - {itemInOrder.ItemId}, ID заказа - {itemInOrder.OrderId}, Количество - {itemInOrder.Quantity}");
+
+            var updatedItemInOrder = new ItemsInOrder { Id = itemInOrder.Id };
+
+            Console.Write("Новый ID товара (оставьте пустым для сохранения текущего): ");
+            var itemIdInput = Console.ReadLine();
+            updatedItemInOrder.ItemId = string.IsNullOrWhiteSpace(itemIdInput) ? itemInOrder.ItemId : int.Parse(itemIdInput);
+
+            Console.Write("Новый ID заказа (оставьте пустым для сохранения текущего): ");
+            var orderIdInput = Console.ReadLine();
+            updatedItemInOrder.OrderId = string.IsNullOrWhiteSpace(orderIdInput) ? itemInOrder.OrderId : int.Parse(orderIdInput);
+
+            Console.Write("Новое количество (оставьте пустым для сохранения текущего): ");
+            var quantityInput = Console.ReadLine();
+            updatedItemInOrder.Quantity = string.IsNullOrWhiteSpace(quantityInput) ? itemInOrder.Quantity : int.Parse(quantityInput);
+
+            try
+            {
+                itemInOrderService.UpdateItemInOrder(updatedItemInOrder);
+                Console.WriteLine("Элемент в заказе успешно обновлен.");
+            }
+            catch (ValidationException vex)
+            {
+                Console.WriteLine($"Ошибка валидации: {vex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+        }
+
+        private static void RemoveItemInOrder(ItemsInOrderService itemInOrderService, ItemsInOrder itemInOrder)
+        {
+            try
+            {
+                itemInOrderService.RemoveItemInOrder(itemInOrder);
+                Console.WriteLine("Элемент успешно удален из заказа.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
         }
     }
 }

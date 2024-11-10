@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using dblw9.Models;
+using System.ComponentModel.DataAnnotations;
 
 public class Item
 {
@@ -19,5 +20,6 @@ public class Item
     public int SupplierId { get; set; }
     public Supplier? Supplier { get; set; }
     public List<ItemsInStorage> ItemsInStorages { get; set; } = new();
+    public List<ItemsInOrder> ItemsInOrder { get; set; } = new();
 }
 
