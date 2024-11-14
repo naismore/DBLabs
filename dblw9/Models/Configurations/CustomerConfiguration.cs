@@ -14,11 +14,6 @@ namespace dblw9.Models.Configurations
             builder.Property(c => c.BirthDate).HasColumnName("birth_date");
             builder.Property(c => c.Email).HasColumnName("email");
 
-            // Начальные данные
-            builder.HasData(
-                new Customer { Id = 1, FirstName = "Иван", LastName = "Иванов", BirthDate = new DateTime(1990, 1, 1), Email = "ivan@example.com" },
-                new Customer { Id = 2, FirstName = "Петр", LastName = "Петров", BirthDate = new DateTime(1985, 5, 5), Email = "petr@example.com" }
-            );
         }
     }
 }

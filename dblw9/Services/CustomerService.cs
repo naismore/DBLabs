@@ -1,11 +1,6 @@
 ﻿using dblw9.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dblw9.Services
 {
@@ -178,7 +173,7 @@ namespace dblw9.Services
 
         {
 
-            return _context.Customers.Where(c => c.FirstName.Contains(name) || c.LastName.Contains(name)).ToList();
+            return _context.Customers.Where(c => c.FirstName!.Contains(name) || c.LastName!.Contains(name)).ToList();
 
         }
     }

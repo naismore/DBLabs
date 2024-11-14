@@ -16,13 +16,6 @@ namespace dblw9.Models.Configurations
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.CustomerId);
 
-
-            // Начальные данные
-            builder.HasData(
-                new Order { Id = 1, CustomerId = 1, OrderDate = DateTime.Now, Adress = "Улица 1" },
-                new Order { Id = 2, CustomerId = 2, OrderDate = DateTime.Now, Adress = "Улица 2" }
-            );
-
         }
     }
 }

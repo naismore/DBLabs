@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using dblw9.Models;
 
 namespace dblw9.Services
 {
@@ -101,5 +102,7 @@ namespace dblw9.Services
             var storages = _context.Storages.Where(s => s.Name!.Contains(name)).ToList();
             return storages;
         }
+
+        
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dblw9.Models
 {
+    [Table("customer")]
     public class Customer
     {
         public int Id { get; set; }

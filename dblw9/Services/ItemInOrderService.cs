@@ -1,20 +1,15 @@
 ﻿using dblw9.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dblw9.Services
 {
-    public class ItemsInOrderService
+    public class ItemInOrderService
     {
         private readonly MyDbContext _context;
 
 
-        public ItemsInOrderService(MyDbContext context)
+        public ItemInOrderService(MyDbContext context)
 
         {
 
@@ -23,16 +18,16 @@ namespace dblw9.Services
         }
 
 
-        public List<ItemsInOrder> GetAllItemsInOrder()
+        public List<ItemInOrder> GetAllItemsInOrder()
 
         {
 
-            return _context.ItemsInOrders.Include(io => io.Item).Include(io => io.Order).ToList();
+            return _context.ItemsInOrder.Include(io => io.Item).Include(io => io.Order).ToList();
 
         }
 
 
-        public void AddItemInOrder(ItemsInOrder itemInOrder)
+        public void AddItemInOrder(ItemInOrder itemInOrder)
 
         {
 
@@ -50,7 +45,7 @@ namespace dblw9.Services
             }
 
 
-            _context.ItemsInOrders.Add(itemInOrder);
+            _context.ItemsInOrder.Add(itemInOrder);
 
 
             try
@@ -72,11 +67,11 @@ namespace dblw9.Services
         }
 
 
-        public void UpdateItemInOrder(ItemsInOrder updatedItemInOrder)
+        public void UpdateItemInOrder(ItemInOrder updatedItemInOrder)
 
         {
 
-            var existingItemInOrder = _context.ItemsInOrders.Find(updatedItemInOrder.Id);
+            var existingItemInOrder = _context.ItemsInOrder.Find(updatedItemInOrder.Id);
 
             if (existingItemInOrder == null)
 
@@ -127,11 +122,11 @@ namespace dblw9.Services
         }
 
 
-        public void RemoveItemInOrder(ItemsInOrder itemInOrder)
+        public void RemoveItemInOrder(ItemInOrder itemInOrder)
 
         {
 
-            var existingItemInOrder = _context.ItemsInOrders.Find(itemInOrder.Id);
+            var existingItemInOrder = _context.ItemsInOrder.Find(itemInOrder.Id);
 
             if (existingItemInOrder == null)
 
@@ -141,7 +136,7 @@ namespace dblw9.Services
 
             }
 
-            _context.ItemsInOrders.Remove(existingItemInOrder);
+            _context.ItemsInOrder.Remove(existingItemInOrder);
 
 
             try
@@ -163,11 +158,11 @@ namespace dblw9.Services
         }
 
 
-        public List<ItemsInOrder> GetItemsInOrderByOrderId(int orderId)
+        public List<ItemInOrder> GetItemsInOrderByOrderId(int orderId)
 
         {
 
-            return _context.ItemsInOrders.Where(io => io.OrderId == orderId).Include(io => io.Item).ToList();
+            return _context.ItemsInOrder.Where(io => io.OrderId == orderId).Include(io => io.Item).ToList();
 
         }
     }

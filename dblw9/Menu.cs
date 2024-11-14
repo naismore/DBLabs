@@ -1,76 +1,107 @@
-﻿namespace dblw9
+﻿using System;
+
+namespace dblw9
 {
-    public class Menu
+    public static class Menu
     {
-        public static string[] categoriesActions = {
-            "Товары", // +
-            "Склады",
-            "Поставщики", // +
-            "Работа со складом",
-            "Аналитические данные",
-        };
-        public static string[] itemsInStorageStage1 =
+        public static void ShowMainMenu()
         {
-            "Найти элемент на складе",
-            "Добавить элемент на склад",
-            "Вывести все элементы со склада"
-        };
-        public static string[] itemsInStorageStage2 =
-        {
-            "Удалить элемент",
-            "Редактировать элемент",
-            
-        };
-        public static string[] supplierStage1 =
-        {
-            "Поиск", // +
-            "Добавление", // +
-            "Все поставщики", // +
-        };
-        public static string[] supplierStage2 =
-        {
-            "Удалить запись", // +
-            "Редактировать запись" // +
-        };
-        public static string[] itemStage1 =
-        {
-            "Вывести все товары", // +
-            "Найти товар", // +
-            "Добавить запись о товаре", // +
-        };
-        public static string[] itemStage2 = {
-            "Удалить запись о товаре", // +
-            "Изменение записи о товаре", // +
-        };
-        public static string[] storageStage1 =
-        {
-            "Найти склад",
-            "Добавить склад",
-        };
-        public static string[] storageStage2 =
-        {
-            "Удалить запись о складе",
-            "Изменение записи о складе",
-        };
-        public static string[] customerStage1 = new[]
-{
-            "Вывести всех клиентов",
-            "Добавить клиента",
-            "Найти клиента"
-        };
+            Console.Clear();
+            Console.WriteLine("Выберите действие:");
+            Console.WriteLine("1. Управление клиентами");
+            Console.WriteLine("2. Управление заказами");
+            Console.WriteLine("3. Управление поставщиками");
+            Console.WriteLine("4. Управление складами");
+            Console.WriteLine("5. Управление товарами");
+            Console.WriteLine("6. Управление товарами на складе");
+            Console.WriteLine("7. Управление товарами в заказе");
+            Console.WriteLine("0. Выход");
+        }
 
-        public static string[] orderStage1 = new[]
+        public static void ShowCustomerMenu()
         {
-            "Вывести все заказы",
-            "Добавить заказ",
-            "Найти заказ"
-        };
+            Console.Clear();
+            Console.WriteLine("Управление клиентами:");
+            Console.WriteLine("1. Просмотреть всех клиентов");
+            Console.WriteLine("2. Добавить клиента");
+            Console.WriteLine("3. Редактировать клиента");
+            Console.WriteLine("4. Искать клиентов");
+            Console.WriteLine("5. Удалить клиента");
+            Console.WriteLine("0. Назад");
+        }
 
-        public static string[] itemInOrderStage1 = new[]
+        public static void ShowOrderMenu()
         {
-            "Вывести все элементы в заказах",
-            "Добавить элемент в заказ",
-            "Найти элемент в заказе"
-        };
+            Console.Clear();
+            Console.WriteLine("Управление заказами:");
+            Console.WriteLine("1. Просмотреть все заказы");
+            Console.WriteLine("2. Добавить заказ");
+            Console.WriteLine("3. Редактировать заказ");
+            Console.WriteLine("4. Искать заказы");
+            Console.WriteLine("5. Удалить заказ");
+            Console.WriteLine("0. Назад");
+        }
+
+        public static void ShowSupplierMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Управление поставщиками:");
+            Console.WriteLine("1. Просмотреть всех поставщиков");
+            Console.WriteLine("2. Добавить поставщика");
+            Console.WriteLine("3. Редактировать поставщика");
+            Console.WriteLine("4. Искать поставщиков");
+            Console.WriteLine("5. Удалить поставщика");
+            Console.WriteLine("0. Назад");
+        }
+
+        public static void ShowStorageMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Управление складами:");
+            Console.WriteLine("1. Просмотреть все склады");
+            Console.WriteLine("2. Добавить склад");
+            Console.WriteLine("3. Редактировать склад");
+            Console.WriteLine("4. Искать склады");
+            Console.WriteLine("5. Удалить склад");
+            Console.WriteLine("0. Назад");
+        }
+
+        public static void ShowItemMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Управление товарами:");
+            Console.WriteLine("1. Просмотреть все товары");
+            Console.WriteLine("2. Добавить товар");
+            Console.WriteLine("3. Редактировать товар");
+            Console.WriteLine("4. Искать товары");
+            Console.WriteLine("5. Удалить товар");
+            Console.WriteLine("0. Назад");
+        }
+
+        public static void ShowItemInOrderMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Меню управления элементами в заказах:");
+            Console.WriteLine("1. Показать все элементы в заказах");
+            Console.WriteLine("2. Добавить элемент в заказ");
+            Console.WriteLine("3. Редактировать элемент в заказе");
+            Console.WriteLine("4. Удалить элемент из заказа");
+            Console.WriteLine("5. Найти элементы по ID заказа");
+            Console.WriteLine("0. Вернуться в главное меню");
+            Console.Write("Выберите опцию: ");
+        }
+
+        public static void ShowItemInStorageMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Меню управления элементами в хранилище:");
+            Console.WriteLine("1. Показать все элементы в хранилище");
+            Console.WriteLine("2. Добавить элемент в хранилище");
+            Console.WriteLine("3. Редактировать элемент в хранилище");
+            Console.WriteLine("4. Удалить элемент из хранилища");
+            Console.WriteLine("5. Найти элементы по ID склада");
+            Console.WriteLine("0. Вернуться в главное меню");
+            Console.Write("Выберите опцию: ");
+        }
     }
 }

@@ -11,7 +11,7 @@ public class StorageAnalyticsService
 
     public List<StorageAnalytics> GetStorageAnalytics()
     {
-        var analytics = _context.ItemsInStorages
+        var analytics = _context.ItemsInStorage
             .GroupBy(i => i.StorageId)
             .Select(g => new StorageAnalytics
             {

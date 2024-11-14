@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using dblw9.Models;
 
 namespace dblw9.Services
 {

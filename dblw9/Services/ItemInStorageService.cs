@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using dblw9.Models;
 
 namespace dblw9.Services
 {
@@ -11,7 +12,7 @@ namespace dblw9.Services
         {
             _context = context;
         }
-        public void AddItemToStorage(ItemsInStorage item)
+        public void AddItemToStorage(ItemInStorage item)
         {
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(item);
@@ -21,7 +22,7 @@ namespace dblw9.Services
                 throw new ValidationException($"Item is not valid: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
             }
 
-            _context.ItemsInStorages.Add(item);
+            _context.ItemsInStorage.Add(item);
 
             try
             {
@@ -34,9 +35,9 @@ namespace dblw9.Services
         }
 
         // Метод для редактирования существующего элемента в хранилище
-        public void UpdateItemInStorage(ItemsInStorage updatedItem)
+        public void UpdateItemInStorage(ItemInStorage updatedItem)
         {
-            var existingItem = _context.ItemsInStorages.Find(updatedItem.Id);
+            var existingItem = _context.ItemsInStorage.Find(updatedItem.Id);
             if (existingItem == null)
             {
                 throw new KeyNotFoundException("Item not found in storage.");
@@ -57,16 +58,16 @@ namespace dblw9.Services
         }
 
         // Метод для удаления элемента из хранилища
-        public void RemoveItemFromStorage(ItemsInStorage item)
+        public void RemoveItemFromStorage(ItemInStorage item)
         {
-            var existingItem = _context.ItemsInStorages.Find(item.Id);
+            var existingItem = _context.ItemsInStorage.Find(item.Id);
 
             if (existingItem == null)
             {
                 throw new KeyNotFoundException("Item not found in storage.");
             }
 
-            _context.ItemsInStorages.Remove(existingItem);
+            _context.ItemsInStorage.Remove(existingItem);
 
             try
             {
@@ -79,21 +80,21 @@ namespace dblw9.Services
         }
 
         // Метод для получения элемента по ID
-        public List<ItemsInStorage> GetItemById(int id)
+        public List<ItemInStorage> GetItemById(int id)
         {
-            return _context.ItemsInStorages.Where(i => i.Id == id).ToList();
+            return _context.ItemsInStorage.Where(i => i.Id == id).ToList();
         }
 
         // Метод для получения всех элементов в хранилище
-        public List<ItemsInStorage> GetAllItemsInStorage()
+        public List<ItemInStorage> GetAllItemsInStorage()
         {
-            return _context.ItemsInStorages.ToList();
+            return _context.ItemsInStorage.ToList();
         }
 
         // Метод для получения элементов по ID склада
-        public List<ItemsInStorage> GetItemsByStorageId(int storageId)
+        public List<ItemInStorage> GetItemsByStorageId(int storageId)
         {
-            return _context.ItemsInStorages.Where(i => i.StorageId == storageId).ToList();
+            return _context.ItemsInStorage.Where(i => i.StorageId == storageId).ToList();
         }
     }
 }
