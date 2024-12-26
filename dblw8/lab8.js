@@ -279,7 +279,7 @@ db.items.find({ category: "apple" });
 db.items.find ({category: {$size:3}})
 
 // 4.10 Поиск записей без атрибута
-db.storages.find ({phone_number: {$exists:true}})
+db.storages.find ({phone_number: {$exists:false}})
 
 // Обновление записей
 // 5. Обновление записей
